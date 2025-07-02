@@ -17,5 +17,5 @@ func NewStatusRoute() *StatusRoute {
 
 func (route *StatusRoute) Handle(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	log.Println("HTTP/1.1 200 OK")
+	log.Println("HTTP/1.1 200 OK") // TODO: Change harcoded HTTP version by version used
 }
