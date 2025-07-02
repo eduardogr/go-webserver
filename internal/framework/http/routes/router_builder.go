@@ -42,18 +42,29 @@ func (r *RouterBuilder) BuildRouter() (*mux.Router, error) {
 	// Paths for /api/
 	apiRouter.HandleFunc(r.StatusRoute.Path, r.StatusRoute.Handle)
 
-	// Paths for /api/v0/
+	/*
+		Paths for /api/v0/
+	*/
 	var apiV0Router = apiRouter.PathPrefix("/v0").Subrouter()
 	apiV0Router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusForbidden)
+		w.WriteHeader(http.StatusNotFound)
 	})
 
+	apiV0Router.Handle(r.NumbersRoute.Path, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusGone)
+	})).Methods("POST", "GET")
+	apiV0Router.Handle(r.NumbersRoute.PathID, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusGone)
+	})).Methods("PUT", "DELETE", "GET")
+
+	/*
+		Paths for /api/v1/
+	*/
 	var apiV1Router = apiRouter.PathPrefix("/v1").Subrouter()
 	apiV1Router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusForbidden)
+		w.WriteHeader(http.StatusNotFound)
 	})
 
-	// Paths for /api/v1/
 	apiV1Router.HandleFunc(r.NumbersRoute.Path, r.NumbersRoute.CreateNumberController.Execute).Methods("POST")
 	apiV1Router.HandleFunc(r.NumbersRoute.PathID, r.NumbersRoute.UpdateNumberByIdController.Execute).Methods("PUT")
 	apiV1Router.HandleFunc(r.NumbersRoute.PathID, r.NumbersRoute.RemoveNumberByIdController.Execute).Methods("DELETE")
