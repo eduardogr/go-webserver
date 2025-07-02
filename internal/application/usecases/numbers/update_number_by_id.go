@@ -6,14 +6,16 @@ import (
 	"github.com/eduardogr/webser-go/internal/domain"
 )
 
-func NewUpdateNumberByIdUsecase(repository repositories.NumberRepository) usecases.UpdateNumberByIdUsecase {
-	return &UpdateNumberById{
-		Repository: repository,
-	}
-}
-
 type UpdateNumberById struct {
 	Repository repositories.UpdateNumberById
+}
+
+func NewUpdateNumberByIdUsecase(repository repositories.NumberRepository) usecases.UpdateNumberByIdUsecase {
+	return &UpdateNumberById{
+		// we received 'repositories.NumberRepository'
+		// but we will have visibility only for 'repositories.UpdateNumberById'
+		Repository: repository,
+	}
 }
 
 func (u *UpdateNumberById) Execute(n domain.Number, id int) error {

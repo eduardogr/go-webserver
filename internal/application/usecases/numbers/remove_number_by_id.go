@@ -5,14 +5,16 @@ import (
 	"github.com/eduardogr/webser-go/internal/adapters/interfaces/usecases"
 )
 
-func NewRemoveNumberByIdUsecase(repository repositories.NumberRepository) usecases.RemoveNumberByIdUsecase {
-	return &RemoveNumberById{
-		Repository: repository,
-	}
-}
-
 type RemoveNumberById struct {
 	Repository repositories.RemoveNumberById
+}
+
+func NewRemoveNumberByIdUsecase(repository repositories.NumberRepository) usecases.RemoveNumberByIdUsecase {
+	return &RemoveNumberById{
+		// we received 'repositories.NumberRepository'
+		// but we will have visibility only for 'repositories.RemoveNumberById'
+		Repository: repository,
+	}
 }
 
 func (u *RemoveNumberById) Execute(id int) error {

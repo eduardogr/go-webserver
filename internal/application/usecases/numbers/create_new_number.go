@@ -8,14 +8,25 @@ import (
 	"github.com/eduardogr/webser-go/internal/domain"
 )
 
-func NewCreateNumberUsecase(repository repositories.NumberRepository) usecases.CreateNewNumberUsecase {
-	return &CreateNewNumber{
-		Repository: repository,
-	}
-}
-
 type CreateNewNumber struct {
 	Repository repositories.CreateNumberRepository
+}
+
+/*
+In 'NewCreateNumberUsecase' is the key to force the implementation of the interface
+
+'CreateNewNumber' must implement this interface:
+
+	type CreateNewNumberUsecase interface {
+		Execute(n domain.NewNumberRequest) error
+	}
+*/
+func NewCreateNumberUsecase(repository repositories.NumberRepository) usecases.CreateNewNumberUsecase {
+	return &CreateNewNumber{
+		// we received 'repositories.NumberRepository'
+		// but we will have visibility only for 'repositories.CreateNumberRepository'
+		Repository: repository,
+	}
 }
 
 func (u *CreateNewNumber) Execute(n domain.NewNumberRequest) error {
@@ -25,7 +36,6 @@ func (u *CreateNewNumber) Execute(n domain.NewNumberRequest) error {
 	}
 
 	err := u.Repository.Create(n)
-
 	if err != nil {
 		return err
 	}
