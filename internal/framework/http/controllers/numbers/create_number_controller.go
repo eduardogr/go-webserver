@@ -27,8 +27,8 @@ func (c *CreateNumberController) Execute(w http.ResponseWriter, r *http.Request)
 
 	reqBody, _ := io.ReadAll(r.Body)
 
-	var n domain.NewNumberRequest
-	err := json.Unmarshal(reqBody, &n)
+	var request domain.NewNumberRequest
+	err := json.Unmarshal(reqBody, &request)
 	if err != nil {
 		response := map[string]interface{}{
 			"success": false,
@@ -41,7 +41,7 @@ func (c *CreateNumberController) Execute(w http.ResponseWriter, r *http.Request)
 	}
 
 	// create request
-	err = c.CreateNewNumberUsecase.Execute(n)
+	err = c.CreateNewNumberUsecase.Execute(request)
 
 	if err != nil {
 		response := map[string]interface{}{
@@ -57,7 +57,7 @@ func (c *CreateNumberController) Execute(w http.ResponseWriter, r *http.Request)
 	response := map[string]interface{}{
 		"success": true,
 		"data": map[string]interface{}{
-			"number": n.ID,
+			"number": request.ID,
 		},
 	}
 	json.NewEncoder(w).Encode(response)
