@@ -3,9 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
-
-	"github.com/gorilla/mux"
 
 	"github.com/eduardogr/webser-go/internal/adapters/interfaces/usecases"
 	"github.com/eduardogr/webser-go/internal/domain"
@@ -22,8 +19,7 @@ type GetNumberByIdController struct {
 }
 
 func (c *GetNumberByIdController) Execute(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id, _ := strconv.Atoi(vars["id"])
+	id, _ := readFromMuxVars(r, "id")
 
 	number, err := c.GetNumberByIdUsecase.Execute(id)
 

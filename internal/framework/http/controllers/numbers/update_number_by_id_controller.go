@@ -4,9 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"strconv"
-
-	"github.com/gorilla/mux"
 
 	"github.com/eduardogr/webser-go/internal/adapters/interfaces/usecases"
 	"github.com/eduardogr/webser-go/internal/domain"
@@ -23,8 +20,7 @@ type UpdateNumberByIdController struct {
 }
 
 func (c *UpdateNumberByIdController) Execute(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id, _ := strconv.Atoi(vars["id"])
+	id, _ := readFromMuxVars(r, "id")
 
 	reqBody, _ := io.ReadAll(r.Body)
 	var n domain.Number
