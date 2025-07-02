@@ -17,13 +17,19 @@
 - make up
   - verify you are running this with proper permissions
 
-## exposed API
+## REST API
 
 ```
-/api/v0
-Do nothing now, just to be an example for a multiple api/vX format in router.go file
+GET /api/v0
+  - Do nothing now, just to be an example for a multiple api/vX format in router.go file
+```
 
-GET /api/v1/numbers, return all numbers stored
+```
+GET /api/v1/numbers
+  - return all numbers stored
+```
 
-POST /api/v1/numbers -d '{"ID":11}', creating a number in the storage
+```
+POST /api/v1/numbers -d '{"ID":11}'
+  - creating a number in the storage
 ```
